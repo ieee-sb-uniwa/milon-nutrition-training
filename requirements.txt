@@ -1,0 +1,6 @@
+numpy
+Pillow
+pandas
+matplotlib
+opencv-python
+typing 
