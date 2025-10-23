@@ -8,7 +8,7 @@ def clean_category(category:str)-> str:
 
 
 def get_categories(base_dir:str,categories:List[str])->Dict[str,List[str]]:
-    if not isinstance(categories,List[str]):
+    if not isinstance(categories,list):
         raise ValueError("The categories must be a list of strings")
     
     clean_category = [clean_category(cat) for cat in categories]
