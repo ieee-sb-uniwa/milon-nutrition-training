@@ -1,14 +1,15 @@
 import os 
 import cv2
-from typing import List , Union, Dict
+from typing import List , Dict
+import shutil
 
 def clean_category(category:str)-> str:
     return "_".join(category.strip().lower().split())
 
 
-def get_categories(base_dir:str,categories:Union[str,List[str]])->Dict[str,List[str]]:
-    if isinstance(categories,str):
-        categories = [categories]
+def get_categories(base_dir:str,categories:List[str])->Dict[str,List[str]]:
+    if not isinstance(categories,List[str]):
+        raise ValueError("The categories must be a list of strings")
     
     clean_category = [clean_category(cat) for cat in categories]
     valid_exts = [".jpg",".jpeg",".png",".bmp",".tiff"]
@@ -27,6 +28,22 @@ def get_categories(base_dir:str,categories:Union[str,List[str]])->Dict[str,List[
 
     return result , clean_category #returns the result of every image and the clean_categories inside the dict
 
+
+#dataset creation
+def create_dataset(result:Dict[str,List[str]],output_path:str) ->None:
+    if not os.path.exists(output_path):
+        os.makedirs(output_path)
+    
+    for category,img_paths in result.items():
+        category_dir = os.path.join(output_path,category)
+        if not os.path.exists(category_dir):
+            os.makedirs(category_dir)
+        
+        for img_path in img_paths:
+            fname = os.path.basename(img_path)
+            dest_path = os.path.join(category_dir,fname)
+            if not os.path.exists(dest_path):
+                shutil.copy2(img_path,dest_path)
 
 #----- KAGGLE FUNCTIONS BELOW --------
 
