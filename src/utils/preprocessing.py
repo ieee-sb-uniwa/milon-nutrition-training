@@ -1,5 +1,5 @@
 import os 
-import cv2
+import cv2 
 from typing import List , Dict
 import shutil
 
@@ -11,11 +11,11 @@ def get_categories(base_dir:str,categories:List[str])->Dict[str,List[str]]:
     if not isinstance(categories,list):
         raise ValueError("The categories must be a list of strings")
     
-    clean_category = [clean_category(cat) for cat in categories]
-    valid_exts = [".jpg",".jpeg",".png",".bmp",".tiff"]
-    result = {cat:[] for cat in clean_category}
+    clean_cat = [clean_category(cat) for cat in categories]
+    valid_exts = (".jpg",".jpeg",".png",".bmp",".tiff")
+    result = {cat:[] for cat in clean_cat}
 
-    for cat in clean_category:
+    for cat in clean_cat:
         dir_path = os.path.join(base_dir, cat)
         if not os.path.isdir(dir_path):
             continue
@@ -91,3 +91,13 @@ def unsharp_mask(img, ksize=(5,5), strength=1.5):
     blur = cv2.GaussianBlur(img, ksize, 0)
     sharp = cv2.addWeighted(img, 1 + strength, blur, -strength, 0)
     return sharp
+
+
+if __name__ == "__main__":
+    base_dir = "src/data/food-101/images"
+    print("Current working directory:", os.getcwd())
+
+    res, cats = get_categories(base_dir=base_dir,categories=["apple_pie","baby_back_ribs","baklava"])
+    output_path = "src/data/processed/food-101/small_dataset"
+    create_dataset(result=res,output_path=output_path)
+    print(f"Dataset created at {output_path} with categories: {cats}")
