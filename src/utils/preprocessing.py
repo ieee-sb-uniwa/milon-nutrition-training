@@ -26,7 +26,7 @@ def get_categories(base_dir:str,categories:List[str])->Dict[str,List[str]]:
                     full_path = os.path.join(root, fname)
                     result[cat].append(full_path)
 
-    return result , clean_category #returns the result of every image and the clean_categories inside the dict
+    return result , clean_cat #returns the result of every image and the clean_categories inside the dict
 
 
 #dataset creation
