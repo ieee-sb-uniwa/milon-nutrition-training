@@ -1,3 +1,9 @@
+*.png
+*.jpg
+*.jpeg
+*.zip
+*.gz
+src/data/food-101/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
