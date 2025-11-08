@@ -93,7 +93,7 @@ def main():
     # Σώζουμε τις εικόνες στον δίσκο
     np.save("fruit_train_images.npy", image_fruit_train_image)
     np.save("fruit_train_labels.npy", image_fruit_train_image_labels)
-    np.save("fruit_train_images.npy", image_fruit_test_image)
+    np.save("fruit_test_images.npy", image_fruit_test_image)
     
  
 
