@@ -47,20 +47,36 @@ def create_dataset(result:Dict[str,List[str]],output_path:str) ->None:
 
 #----- KAGGLE FUNCTIONS BELOW --------
 
-def normalize_img(img,TARGET_SIZE=512,pad_color=0):
-    h ,w = img.shape[:2]
-    if w!= TARGET_SIZE:
-        aspect_ratio = h/w
-        new_h = int(TARGET_SIZE*aspect_ratio)
-        img = cv2.resize(img,(TARGET_SIZE,new_h),interpolation=cv2.INTER_AREA)
+def normalize_img(img,TARGET_SIZE=(224,224),pad_color=0):
+    if isinstance(TARGET_SIZE,int):
+        target_h = target_w = TARGET_SIZE
+    else:
+        target_h, target_w = TARGET_SIZE
+    
+    h, w = img.shape[:2]
+    if h == 0 or w ==0:
+        raise ValueError("Empty image received in normalize_img")
+    
+    scale = min(target_w/w,target_h/h)
+    new_w = int(round(w*scale))
+    new_h = int(round(h*scale))
 
-        h,w = img.shape[:2]
-    if h <TARGET_SIZE:
-        img = pad_height(img,TARGET_SIZE,pad_color)
-    elif h > TARGET_SIZE:
-        img = crop_height(img)
+    resized = cv2.resize(img,(new_w,new_h),interpolation=cv2.INTER_AREA)
 
-    return img
+    pad_w = target_w - new_w
+    pad_h = target_h -new_h 
+    left = pad_w//2
+    right = pad_w -left 
+    top = pad_h //2
+    bottom = pad_h -top 
+
+    padded = cv2.copyMakeBorder(
+        resized,
+        top,bottom,left,right ,
+        borderType= cv2.BORDER_CONSTANT,
+        value=(pad_color,pad_color,pad_color)
+    )
+    return padded
 
     
 
