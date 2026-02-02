@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  food-classifier:
+    build:
+      context: ..
+      dockerfile: app/Dockerfile
+    container_name: food-classifier-api
+    ports:
+      - "8000:8000"
+    environment:
+      - BASE_DIR=/app
+      - MODEL_PATH=/app/models/transfood101.pth
+      - PYTHONUNBUFFERED=1
+    volumes:
+      # Mount model weights from host (required)
+      - ../src/models/artifacts/weights:/app/models:ro
+      # Mount app for development (remove in production)
+      - .:/app/app:ro
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import requests; requests.get('http://localhost:8000/health', timeout=5)",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
