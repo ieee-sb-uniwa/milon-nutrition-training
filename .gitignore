@@ -1,6 +1,7 @@
-*.png
-*.jpg
-*.jpeg
+*.pth
+**.png
+**.jpg
+**.jpeg
 *.zip
 *.gz
 src/data/food-101/
