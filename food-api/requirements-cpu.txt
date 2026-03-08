@@ -1,0 +1,17 @@
+# CPU-only wheels for Docker / CPU-only deployments.
+# Use this file instead of requirements.txt when running without a GPU.
+#
+# torch and torchvision are installed from the PyTorch CPU index to avoid
+# pulling in the ~3.5 GB CUDA build.
+--index-url https://download.pytorch.org/whl/cpu
+torch==2.2.2+cpu
+torchvision==0.17.2+cpu
+
+# Remaining dependencies from PyPI
+--extra-index-url https://pypi.org/simple
+pydantic==2.11.7
+fastapi==0.128.7
+uvicorn==0.40.0
+numpy<2.0.0
+Pillow==12.0.0
+python-multipart==0.0.22
