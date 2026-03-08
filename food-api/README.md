@@ -42,7 +42,7 @@ docker build -t food-classifier .
 docker run -d \
   --name food-classifier-api \
   --env-file .env \
-  -v ./weights:/app/models:ro \
+  -v ./models:/app/models:ro \
   -p 8000:8000 \
   food-classifier
 ```
@@ -60,10 +60,10 @@ docker rm food-classifier-api
 
 ## Endpoints
 
-| Method | Path | Description |
-|--------|------|-------------|
-| `GET` | `/health` | Liveness check — returns model status |
-| `POST` | `/predict` | Classify a food image |
+| Method | Path       | Description                           |
+| ------ | ---------- | ------------------------------------- |
+| `GET`  | `/health`  | Liveness check — returns model status |
+| `POST` | `/predict` | Classify a food image                 |
 
 ### `GET /health`
 

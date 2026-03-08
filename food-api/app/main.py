@@ -65,8 +65,19 @@ async def predict(image: UploadFile = Depends(validate_image_upload)):
             status_code=500, detail=f"Prediction failed: probs={len(probs)}"
         )
 
+    top5 = sorted(
+        enumerate(probs),
+        key=lambda x: x[1],
+        reverse=True,
+    )[:5]
+
     return {
-        "predicted_index": results["predicted_index"],
-        "predicted_label": results["predicted_label"],
-        "confidence": results["confidence"],
+        "top5": [
+            {
+                "index": idx,
+                "label": model.class_names[idx] if model.class_names else None,
+                "confidence": float(prob),
+            }
+            for idx, prob in top5
+        ]
     }
