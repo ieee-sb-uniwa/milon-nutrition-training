@@ -52,6 +52,7 @@ LICENSE
 *.md
 
 # Testing
+app/test/
 .pytest_cache/
 .coverage
 htmlcov/
