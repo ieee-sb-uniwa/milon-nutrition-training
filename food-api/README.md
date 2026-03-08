@@ -103,8 +103,11 @@ curl -X POST http://localhost:8000/predict \
 Run from the `food-api/` directory with your virtual environment active:
 
 ```bash
-# Install dependencies
-pip install -r requirements.txt
+# CPU-only machine (avoids the ~3.5 GB CUDA torch wheel — same as the Docker image)
+pip install -r requirements-cpu.txt
+
+# GPU machine (full CUDA-enabled torch build)
+# pip install -r requirements.txt
 
 # Start the server
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000

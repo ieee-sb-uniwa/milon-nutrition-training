@@ -10,8 +10,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements and install dependencies
-COPY ./requirements.txt ./
-RUN pip install --no-cache-dir --user -r requirements.txt
+# requirements-cpu.txt installs CPU-only torch/torchvision (~200 MB vs ~3.5 GB for CUDA)
+COPY ./requirements-cpu.txt ./
+RUN pip install --no-cache-dir --user -r requirements-cpu.txt
 
 # Final stage
 FROM python:3.10-slim
